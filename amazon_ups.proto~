@@ -1,0 +1,39 @@
+syntax="proto2"
+message ACreate {
+	required int64 seqnum = 1;
+	required int32 packageid = 2;
+	required int32 startX = 3;
+	required int32 startY = 4;
+	required int32 desX = 5;
+	required int32 desY = 6;
+}
+
+message UArrived {
+	required int64 seqnum = 1;
+	required int32 truckid = 2;
+	required int32 packageid = 3;
+}
+
+message ALoad {
+	required int64 seqnum = 1;
+	required int32 truckid = 2;
+}
+
+message UDelivered {
+	required int64 seqnum = 1;
+	required int32 truckid = 2;
+	required int32 packageid = 3;
+}
+
+message ACK {
+	required int64 seqnum = 1;
+	required int64 acknum = 2;
+}
+
+message UAMessage {
+	repeated ACreate creates = 1;
+	repeated UArrived arrives = 2;
+	repeated ALoad loads = 3;
+	repeated UDelivered delivered = 4;
+	repeated ACK acks = 5;
+}

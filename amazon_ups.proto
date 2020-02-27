@@ -1,0 +1,34 @@
+syntax="proto2";
+message ACreate{
+  required int32 packageid = 1;
+  required int32 whid = 2;
+  required int32 desX = 3;
+  required int32 desY = 4;
+  required int32 wh_x =5;
+  required int32 wh_y=6;  
+  optional int32 upsid = 7;
+  optional string password = 8;
+}
+
+message UArrived{
+  required int32 truckid = 1;
+  required int32 packageid = 2;
+}
+
+message ALoad{
+  required int32 truckid = 1;
+}
+
+message UDelivered{
+  required int32 truckid = 1;
+  required int32 packageid = 2;
+}
+
+
+
+message UAMessage {
+	repeated ACreate creates = 1;
+	repeated UArrived arrives = 2;
+	repeated ALoad loads = 3;
+	repeated UDelivered delivered = 4;
+}

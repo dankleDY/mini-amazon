@@ -1,0 +1,41 @@
+import socket
+import sys
+import world_amazon_pb2
+from google.protobuf.internal.decoder import _DecodeVarint32
+from google.protobuf.internal.encoder import _EncodeVarint
+
+
+HOST = "vcm-8209.vm.duke.edu"
+PORT = 23456
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    sock.connect((HOST, PORT))
+    print("connected")
+    
+    Connect = world_amazon_pb2.AConnect()
+    Connect.isAmazon = True
+    msg = Connect.SerializeToString()
+    print(msg)
+    hdr = []
+    #length = 0
+    _EncodeVarint(hdr.append,len(msg))
+    sock.sendall(hdr[0])
+    sock.sendall(msg)
+    
+    var_int_buff = []
+    while True:
+        buf = sock.recv(1)
+        var_int_buff += buf
+        msg_len, new_pos = _DecodeVarint32(var_int_buff, 0)
+        if new_pos != 0:
+            break
+    whole_message = sock.recv(msg_len)
+    conn = wolrd_amazon_pb2.AConnected()
+    conn.ParseFromString(whole_message)    
+    print(conn.worldid)
+    while True:
+        x=1
+    
+finally:
+    sock.close()
